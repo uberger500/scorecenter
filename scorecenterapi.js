@@ -17,12 +17,8 @@ var db = mongo.Db.connect(mongoUri, function (error, databaseConnection) {
                     console.log("We are connected");
                     var collection = db.collection('scorecenter');
                     var doc1 = {'hello':'doc1'};
-                    var doc2 = {'hello':'doc2'};
-                    var twoDocs = [{'hello':'doc3'}, {'hello':'doc4'}];
 
                     collection.insert(doc1);
-                    collection.insert(doc2, {w:1}, function(err, result) {});
-                    collection.insert(twoDocs, {w:1}, function(err, result) {});
                     }
         });
 /*
@@ -56,15 +52,14 @@ app.all('*', function(req, res, next) {
 });
 
 app.post('/submit.json', function(req, res) {
-   var wine = req.body;
-    console.log('Adding wine: ' + JSON.stringify(wine));
-    db.collection('test', function(err, collection) {
-        collection.insert(wine, {safe:true}, function(err, result) {
+   var score = req.body;
+    console.log('Adding score: ' + JSON.stringify(score));
+    db.collection('scorecenter', function(err, collection) {
+        collection.insert(score, {safe:true}, function(err, result) {
             if (err) {
                 res.send({'error':'An error has occurred'});
             } else {
                 console.log('Success: ' + JSON.stringify(result[0]));
-           //     console.log(db.collection.find());
                 res.send(result[0]);
             }
         });
