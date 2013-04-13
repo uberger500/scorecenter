@@ -8,56 +8,25 @@ app.set('title', 'nodeapp');
 var mongoUri = process.env.MONGOLAB_URI || 
   process.env.MONGOHQ_URL || 
   'mongodb://localhost/scorecenter';
+
 var mongo = require('mongodb');
 
 var db = mongo.Db.connect(mongoUri, function (error, databaseConnection) {
 	db = databaseConnection;
-	if(!error) {
-    console.log("We are connected");
-   var collection = db.collection('test');
-  var doc1 = {'hello':'doc1'};
-  var doc2 = {'hello':'doc2'};
-  var lotsOfDocs = [{'hello':'doc3'}, {'hello':'doc4'}];
+        	if(!error) {
+                    console.log("We are connected");
+                    var collection = db.collection('scorecenter');
+                    var doc1 = {'hello':'doc1'};
+                    var doc2 = {'hello':'doc2'};
+                    var twoDocs = [{'hello':'doc3'}, {'hello':'doc4'}];
 
-  collection.insert(doc1);
-
-  collection.insert(doc2, {w:1}, function(err, result) {});
-
- collection.insert(lotsOfDocs, {w:1}, function(err, result) {});
-//var find = collection.find();
-//console.log(find.body);
-//console.log(db);
-//var found=collection.findOne({hello:"doc1"});
-//console.log(found);
-  
-/*db.collection('test').find({hello: "doc1"}, function(err, test) {
-  if( err || !test) console.log("No female users found");
-  else collection('test').forEach( function(doc) {
-    console.log(doc);
-  } );
-});
-*/
-
-  }
-});
+                    collection.insert(doc1);
+                    collection.insert(doc2, {w:1}, function(err, result) {});
+                    collection.insert(twoDocs, {w:1}, function(err, result) {});
+                    }
+        });
 /*
-var MongoClient = require('mongodb').MongoClient;
-
-// Connect to the db
-MongoClient.connect("mongodb://localhost:27017/exampleDb", function(err, db) {
-  if(!err) {
-    console.log("We are connected");
-  }
-});
-*/
-/*
-//var find = db.scorecenter.find();
-//console.log(find);
-app.get('/', function (request, response) {
-	
-//		db.collection('scorecenter', function(er, collection) {
-//		var find = collection.find();
-//	});
+app.get('/', function (request, response){
 	response.set('Content-Type', 'text/html');
 	response.send('<p>Hi!</p> ');
 });
@@ -72,8 +41,6 @@ app.get('/fool', function(request, response) {
 	response.send(500, 'Something broke!');
 });
 
-// Oh joy! http://stackoverflow.com/questions/15693192/heroku-node-js-error-web-process-failed-to-bind-to-port-within-60-seconds-of
-//app.listen(process.env.PORT || 3000);
 
 */
 
@@ -112,8 +79,7 @@ app.post('/submit.json', function(req, res) {
 app.get('/submit.json', function(req, res) {
     res.set('Content-Type', 'text/html');
     res.send('name submitted1');
-
-        });
+    });
 
 
 app.get('/', function (request, response) {
