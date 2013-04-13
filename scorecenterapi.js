@@ -15,10 +15,9 @@ var db = mongo.Db.connect(mongoUri, function (error, databaseConnection) {
 	db = databaseConnection;
         	if(!error) {
                     console.log("We are connected");
-                    var collection = db.collection('scorecenter');
-                    var doc1 = {'hello':'doc1'};
-
-                    collection.insert(doc1);
+//                    var collection = db.collection('scorecenter');
+  //                var doc1 = {'hello':'doc1'};
+    //                collection.insert(doc1);
                     }
         });
 /*
@@ -55,7 +54,7 @@ app.post('/submit.json', function(req, res) {
    var score = req.body;
     console.log('Adding score: ' + JSON.stringify(score));
     db.collection('scorecenter', function(err, collection) {
-        collection.insert(score, {safe:true}, function(err, result) {
+        collection.insert({game_title: req.body.game_title, username: req.body.username, score: req.body.score, created_at:new Date()}, {safe:true}, function(err, result) {
             if (err) {
                 res.send({'error':'An error has occurred'});
             } else {
