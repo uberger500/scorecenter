@@ -69,29 +69,11 @@ app.get('/', function (request, response) {
     });
 });
 
-
-app.get('/', function (request, response) {
-    db.collection('scorecenter', function(err, collection) {
-        collection.find().toArray(function(err, items) {
-
-        var tableBody = "";
-	    for (i=0; i < items.length; i++) {
-	        tableRow = "<tr>" + "<td>" + items[i].game_title + "<td/>"+"<td>" +items[i].username+"<td/>"+"<td>"+items[i].score+"<td/>"+"<td>"+items[i].created_at+"<td/>"+"<tr/>";
-	        tableBody += tableRow;
-	        }       
-        
-        var table = "<table>"+"<tr>"+"<th>"+"Game_Title" + "</th>"+"<th>"+"Username"+"</th>"+"<th>"+"Score"+"</th>"+"<th>"+"      Created_On"+"</th>"+"<tr/>"+ tableBody + "</table>";
-        response.set('Content-Type', 'text/html');
-        response.send(table);
-        });
-    });
-});
-
 app.get('/highscores.json', function (request, response) {
     db.collection('scorecenter', function(err, collection) {
-        collection.find({game_title:frogger},{'limit':10,'sort':{'score':-1}}).toArray(function(err, items) {
+        collection.find({game_title:'frogger'},{'limit':10,'sort':{'score':-1}}).toArray(function(err, items) {
         response.set('Content-Type', 'text/json');
-        response.send(items);
+        response.send(JSON.stringify(items));
         });
     });
 });
