@@ -78,12 +78,47 @@ app.get('/usersearch', function(request, response) {
 
 app.post('/usersearch', function(request, response) {
     db.collection('scorecenter', function(err, collection) {
-  console.log(request.body);  
-      collection.find(request.body).toArray(function(err, items) {
-         response.send(items);
-         });
+      collection.find(request.body,{'sort':{'score': -1}}).toArray(function(err, items) {
+			if (items.length == 1) {response.set('Content-Type', 'text/html');
+			var result = "<table>"+"<tr>"+"<th>"+"Game_Title" + "</th>"+"<th>"+"Username"+"</th>"+"<th>"+"Score"+"</th>"+"<th>"+"Created_On"+"</th>"+"<tr/>" +"<tr>"+"<td>"+items[0].game_title + "</td>"+"<td>"+items[0].username+"</td>"+"<td>"+items[0].score+"</td>"+"<td>"+items[0].created_at+"</td>"+"<tr/>" + "</table>";
+			response.send(result);}
+			else if (items.length > 1) {
+			
+			
+			var tops = []; //put biggest scores into separate array
+			tops[0] = items[0];
+			for (i = 1; i < (items.length); i++) {
+			    if(items[i].game_title != items[0].game_title) {
+			        for (j = 0; j < tops.length; ) {
+			        if(items[i].game_title == tops[j].game_title) {break;}
+				        if(items[i].game_title != tops[j].game_title) { 
+				            j++;
+				            if (j == tops.length) {
+				                tops.push(items[i]);
+				                j = 0;
+				                break;
+				                }
+				            } else {j++;}
+				    }
+			    }
+            }
+            
+            var tableBody = "";
+	        for (i=0; i < tops.length; i++) {
+	        tableRow = "<tr>" + "<td>" + tops[i].game_title + "<td/>"+"<td>" +tops[i].username+"<td/>"+"<td>"+tops[i].score+"<td/>"+"<td>"+tops[i].created_at+"<td/>"+"<tr/>";
+	        tableBody += tableRow;
+	        }       
+        
+            var table = "<table>"+"<tr>"+"<th>"+"Game_Title" + "</th>"+"<th>"+"Username"+"</th>"+"<th>"+"Score"+"</th>"+"<th>"+"      Created_On"+"</th>"+"<tr/>"+ tableBody + "</table>";
+            response.set('Content-Type', 'text/html');
+            response.send(table);
+         }
+            else { 
+            response.set('Content-Type', 'text/html');
+            response.send('username not found');}
     });
 });         
+});
 
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
