@@ -70,42 +70,24 @@ app.get('/', function (request, response) {
     });
 });
 
-app.get('/highscores.json', function(request, response) {
-	response.set('Content-Type', 'text/json');
-	response.send('{"status":"good"}');
+app.get('/usersearch', function(request, response) {
+
+	response.set('Content-Type', 'text/html');
+	response.send('<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Submit username</title></head><body><h1>Search for user:</h1><form id="usr" action="http://localhost:5000/usersearch" method="post"><input type="text" id="input" name="username" size="30" /><input type="submit" id="submit" onclick=submit()/></form></body></html>');
 });
 
-app.get('/usersearch', function(request, response) {
-db.collection('scorecenter', function(err, collection) {
-        collection.find().toArray(function(err, items) {
-            res.send(items);
-        });
+app.post('/usersearch', function(request, response) {
+    db.collection('scorecenter', function(err, collection) {
+  console.log(request.body);  
+      collection.find(request.body).toArray(function(err, items) {
+         response.send(items);
+         });
     });
-//	response.set('Content-Type', 'text/html');
-//	response.send(200,'<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Submit username</title></head><body><h1>Search for user:</h1><input type="text" id="name" name="name" size="30" /></body></html>');
-});
+});         
 
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log("Listening on " + port);
 });
 
-/*
-app.get('/', function (request, response){
-        response.set('Content-Type', 'text/html');
-        response.send('<p>Hi!</p> ');
-});
-
-app.get('/data.json', function(request, response) {
-        response.set('Content-Type', 'text/json');
-        response.send('{"status":"good"}');
-});
-
-app.get('/fool', function(request, response) {
-        response.set('Content-Type', 'text/html');
-        response.send(500, 'Something broke!');
-});
-
-
-*/
-
+//response.send(200,'<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Submit username</title></head><body><h1>Search for user:</h1><input type="text" id="name" name="name" size="30" /></body></html>');
