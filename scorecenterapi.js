@@ -21,8 +21,8 @@ var db = mongo.Db.connect(mongoUri, function (error, databaseConnection) {
                     }
         });
 
-var mongoUri = process.env.MONGOLAB_URL ||
-MONGOLAB_URI: mongodb://heroku_app14958216:5bijf3ts652u91o3glilooi633@ds037077.mongolab.com:37077/heroku_app14958216
+//var mongoUri = process.env.MONGOLAB_URL 
+//MONGOLAB_URI: mongodb://heroku_app14958216:5bijf3ts652u91o3glilooi633@ds037077.mongolab.com:37077/heroku_app14958216
 
 
 app.all('*', function(req, res, next) {
