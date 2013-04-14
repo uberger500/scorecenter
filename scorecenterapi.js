@@ -21,8 +21,8 @@ var db = mongo.Db.connect(mongoUri, function (error, databaseConnection) {
                     }
         });
 
-//var mongoUri = process.env.MONGOLAB_URL ||
- // 'mongodb://heroku_app14816974:5fe3q16hfra5v7bfgt9j7p7k7v@ds031567.mongolab.com:31567/heroku_app14816974';
+var mongoUri = process.env.MONGOLAB_URL ||
+/ 'mongodb://heroku_app14816974:5fe3q16hfra5v7bfgt9j7p7k7v@ds031567.mongolab.com:31567/heroku_app14816974';
 
 
 app.all('*', function(req, res, next) {
