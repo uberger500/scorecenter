@@ -89,7 +89,7 @@ app.get('/', function (request, response) {
 
 app.get('/usersearch', function(request, response) {
 	response.set('Content-Type', 'text/html');
-	response.send('<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Submit username</title></head><body><h1>Search for user:</h1><form id="usr" action="http://localhost:5000/usersearch" method="post"><input type="text" id="input" name="username" size="30" /><input type="submit" id="submit" onclick=submit()/></form></body></html>');
+	response.send('<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Submit username</title></head><body><h1>Search for user:</h1><form id="usr" action="http://tranquil-beach-4417.herokuapp.com/usersearch" method="post"><input type="text" id="input" name="username" size="30" /><input type="submit" id="submit" onclick=submit()/></form></body></html>');
 });
 
 app.post('/usersearch', function(request, response) {
