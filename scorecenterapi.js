@@ -89,7 +89,7 @@ app.get('/', function (request, response) {
 
 app.get('/highscores.json', function (request, response) {
     db.collection('scorecenter', function(err, collection) {
-        collection.find({game_title:frogger},{'limit':10,'sort':{'score':-1}).toArray(function(err, items) {
+        collection.find({game_title:frogger},{'limit':10,'sort':{'score':-1}}).toArray(function(err, items) {
         response.set('Content-Type', 'text/json');
         response.send(items);
         });
