@@ -22,7 +22,7 @@ var db = mongo.Db.connect(mongoUri, function (error, databaseConnection) {
         });
 
 var mongoUri = process.env.MONGOLAB_URL ||
-/ 'mongodb://heroku_app14816974:5fe3q16hfra5v7bfgt9j7p7k7v@ds031567.mongolab.com:31567/heroku_app14816974';
+MONGOLAB_URI: mongodb://heroku_app14958216:5bijf3ts652u91o3glilooi633@ds037077.mongolab.com:37077/heroku_app14958216
 
 
 app.all('*', function(req, res, next) {
@@ -52,6 +52,23 @@ app.get('/submit.json', function(req, res) {
     res.send('name submitted1');
     });
 
+app.get('/', function (request, response) {
+    db.collection('scorecenter', function(err, collection) {
+        collection.find().toArray(function(err, items) {
+
+        var tableBody = "";
+	    for (i=0; i < items.length; i++) {
+	        tableRow = "<tr>" + "<td>" + items[i].game_title + "<td/>"+"<td>" +items[i].username+"<td/>"+"<td>"+items[i].score+"<td/>"+"<td>"+items[i].created_at+"<td/>"+"<tr/>";
+	        tableBody += tableRow;
+	        }       
+        
+        var table = "<table>"+"<tr>"+"<th>"+"Game_Title" + "</th>"+"<th>"+"Username"+"</th>"+"<th>"+"Score"+"</th>"+"<th>"+"      Created_On"+"</th>"+"<tr/>"+ tableBody + "</table>";
+        response.set('Content-Type', 'text/html');
+        response.send(table);
+        });
+    });
+});
+
 
 app.get('/', function (request, response) {
     db.collection('scorecenter', function(err, collection) {
@@ -71,7 +88,6 @@ app.get('/', function (request, response) {
 });
 
 app.get('/usersearch', function(request, response) {
-
 	response.set('Content-Type', 'text/html');
 	response.send('<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Submit username</title></head><body><h1>Search for user:</h1><form id="usr" action="http://localhost:5000/usersearch" method="post"><input type="text" id="input" name="username" size="30" /><input type="submit" id="submit" onclick=submit()/></form></body></html>');
 });
