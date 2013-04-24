@@ -27,7 +27,8 @@ app.all('*', function(req, res, next) {
 
 app.post('/submit.json', function(req, res) {
     db.collection('scorecenter', function(err, collection) {
-        collection.insert({game_title: req.body.game_title, username: req.body.username, score: req.body.score, created_at:Date()}, {safe:true}, function(err, result) {
+        score = parseInt(req.body.score);
+        collection.insert({game_title: req.body.game_title, username: req.body.username, score: score, created_at:Date()}, {safe:true}, function(err, result) {
             if (err) {
                 res.send({'error':'An error has occurred'});
             } else {
